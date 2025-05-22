@@ -1,4 +1,5 @@
-import { client } from "../server/Mongo.js";
+// import { client } from "../server/Mongo.js";
+import { client } from "../.server/Mongo";
 
 export async function getProducts() {
   let db = client.db("Products");
