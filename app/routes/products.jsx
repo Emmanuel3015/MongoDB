@@ -3,7 +3,11 @@ import { getProducts } from "../models/products.js";
 import { Link } from "react-router";
 
 export async function loader() {
-  let products = await getProducts();
+  let result = await getProducts();
+  let products = result.map((item) => ({
+    ...item,
+    _id: item._id.toString(),
+  }));
   console.log({ products });
 
   return products;
@@ -22,13 +26,16 @@ const Products = ({ loaderData }) => {
       <ul className="mt-6 space-y-4 grid grid-cols-3 gap-4">
         {loaderData.map((item) => (
           <li key={item._id} className="p-4 border rounded">
-            <img
-              src={item.image}
-              alt={item.title}
-              className="h-100 object-center"
-            />
-            <h2 className="text-xl font-semibold mt-6">{item.title}</h2>
-            <p className="text-orange-700">${item.price}</p>
+            <Link to={`/products/${item._id}`}>
+              <img
+                src={item.image}
+                alt={item.title}
+                className="h-100 object-center"
+              />
+              <h2 className="text-xl font-semibold mt-6">{item.title}</h2>
+
+              <p className="text-orange-700">${item.price}</p>
+            </Link>
           </li>
         ))}
       </ul>

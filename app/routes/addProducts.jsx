@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import { validateText, validateNumber } from "../.server/validation";
 import ErrorMessage from "../components/ErrorMessage";
 import FormSpacer from "../components/FormSpacer";
+import { createProducts } from "../models/products";
 
 export async function action({ request }) {
   let formData = await request.formData();
@@ -33,6 +34,18 @@ export async function action({ request }) {
       }
     );
   }
+
+  // Save to db
+  let productObj = {
+    title,
+    price: Number(price),
+    quantity: Number(quantity),
+    image,
+  };
+
+  let result = await createProducts(productObj);
+  console.log(result);
+
   return null;
 }
 
@@ -96,6 +109,7 @@ const addProducts = ({ actionData }) => {
             type="text"
             name="image"
             id="image"
+            placeholder="Enter imageUrl"
             hasError={actionData?.fieldErrors.image}
           />
           {actionData?.fieldErrors.title ? (
