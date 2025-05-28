@@ -1,10 +1,11 @@
-import { Form, Link } from "react-router";
+import { Form, Link, data, redirect } from "react-router";
 import ErrorMessage from "../components/ErrorMessage";
 import FormSpacer from "../components/FormSpacer";
 import Input from "../components/Input";
 import Label from "../components/Label";
 import Button from "../components/Button";
-import { getProductById } from "../models/products";
+import { getProductById, updateProduct } from "../models/products";
+import { validateText, validateNumber } from "../.server/validation";
 
 export async function loader({ params }) {
   let id = params.id;
@@ -14,6 +15,40 @@ export async function loader({ params }) {
   let product = await getProductById(id);
   console.log({ product });
   return product;
+}
+
+export async function action({ request, params }) {
+  let formData = await request.formData();
+  let title = formData.get("title");
+  let price = formData.get("price");
+  let quantity = formData.get("quantity");
+  let image = formData.get("image");
+  console.log({ title, price, quantity, image });
+
+  // Validate the products
+  let fieldErrors = {
+    title: validateText(title),
+    price: validateNumber(price),
+    quantity: validateNumber(quantity),
+    image: validateText(image),
+  };
+
+  // Returns errors
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return data(
+      { fieldErrors },
+      {
+        status: 404,
+        statusText: "Bad Request",
+      }
+    );
+  }
+
+  //   Update the Products
+  let id = params.id;
+  let result = await updateProduct(id, title, price, quantity, image);
+
+  return redirect(`/products/${id}`);
 }
 
 function editProduct({ loaderData, actionData }) {
@@ -90,7 +125,7 @@ function editProduct({ loaderData, actionData }) {
           ) : null}
         </FormSpacer>
 
-        <Button />
+        <Button text="Update Product" />
       </Form>
     </main>
   );

@@ -42,4 +42,5 @@ const Products = ({ loaderData }) => {
   );
 };
 
+
 export default Products;

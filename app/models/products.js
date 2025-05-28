@@ -21,3 +21,19 @@ export async function getProductById(id) {
   });
   return product;
 }
+
+// Update a Product
+export async function updateProduct(id, title, price, quantity, image) {
+  let result = await collection.updateOne(
+    { _id: ObjectId.createFromHexString(id) },
+    {
+      $set: {
+        title,
+        price: Number(price),
+        quantity: Number(quantity),
+        image,
+      },
+    }
+  );
+  return result;
+}

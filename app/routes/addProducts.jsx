@@ -117,7 +117,7 @@ const addProducts = ({ actionData }) => {
           ) : null}
         </FormSpacer>
 
-        <Button />
+        <Button text="Add Products" />
       </Form>
     </main>
   );
