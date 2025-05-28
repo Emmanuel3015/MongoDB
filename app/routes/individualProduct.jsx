@@ -12,7 +12,23 @@ export async function loader({ params }) {
 function individualProduct({ loaderData }) {
   return (
     <main className="max-w-6xl mx-auto">
-      <h1 className="font-bold text-4xl text-red-500 mt-10">
+      <div className="flex mt-5">
+        <Link
+          prefetch="intent"
+          to="/products"
+          className="border border-orange-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-orange-500 "
+        >
+          Back to products
+        </Link>
+
+        <Link
+          to={`edit`}
+          className="border border-orange-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-orange-500 ml-5"
+        >
+          Edit
+        </Link>
+      </div>
+      <h1 className="font-bold text-4xl text-red-500 mt-5">
         {loaderData.title}
       </h1>
       <img
@@ -21,13 +37,6 @@ function individualProduct({ loaderData }) {
         className="h-[200x]  mt-8"
       />
       <p className="my-4 text-3xl">Ksh{loaderData.price}</p>
-      <Link
-        prefetch="intent"
-        to="/products"
-        className="border border-orange-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-orange-500 "
-      >
-        Back to products
-      </Link>
     </main>
   );
 }

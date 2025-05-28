@@ -8,7 +8,6 @@ export async function loader() {
     ...item,
     _id: item._id.toString(),
   }));
-  console.log({ products });
 
   return products;
 }

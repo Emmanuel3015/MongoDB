@@ -5,4 +5,5 @@ export default [
   route("products", "./routes/products.jsx"),
   route("addProducts", "./routes/addProducts.jsx"),
   route("products/:id", "./routes/individualProduct.jsx"),
+  route("products/:id/edit", "./routes/EditProduct.jsx"),
 ];
